@@ -1,0 +1,42 @@
+<html>
+<head>
+<title></title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    ここから iframe
+  <iframe src="child.html" id="iView" style="width:200px;height:70px;border:dotted 1px red" frameborder="0" >
+</iframe>
+      <button onclick="iframeLoad()">ボタン</button>
+
+<script type="text/javascript">
+    let $iframe = $("#iView");
+    function iframeLoad() {
+    // この関数は、ブラウザ読み込み時しか成功しない。
+    console.log($iframe.contents());
+    console.log($iframe.contents().find("#sex"));
+    console.log($("#name").length);
+    // ローカルで動かすと、
+    // Uncaught DOMException: Blocked a frame with origin "null" from accessing a cross-origin frame.と出る。Web サーバーを起動させないといけない。
+    // document ready のタイミングではまだ呼び出せない。
+    $iframe[0].contentWindow.showInChild({
+        id: "TR00001",
+        name: "kazuteru sakaida"
+    })
+    };
+
+    (function() {
+
+    })()
+
+    $(document).ready(() => {
+        // ボタンをクリックした時は OK
+        iframeLoad();
+    });
+    $iframe.load(() => {
+        iframeLoad();
+    });
+
+    </script>
+</body>
+</html>
